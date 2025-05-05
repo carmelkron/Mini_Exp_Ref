@@ -1,1 +1,9 @@
 streamlit
+pandas
+numpy
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+gspread
+st-gsheets-connection
