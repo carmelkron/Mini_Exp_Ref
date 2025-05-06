@@ -25,11 +25,13 @@ st.set_page_config(layout="wide")
 
 # Initialize session state with the dataset connection and the dataset itself
 if 'dataset_conn' not in st.session_state:
-    st.session_state.dataset_conn = st.connection('dataset', type=GSheetsConnection)
+    st.session_state.dataset_conn = st.connection('comparisons_dataset', type=GSheetsConnection)
     
     while True:
         try:
-            st.session_state.dataset_df = pd.DataFrame(st.session_state.dataset_conn.read(worksheet="cn_dataset_styles"))
+            st.session_state.dataset_df_kpi1 = pd.DataFrame(st.session_state.dataset_conn.read(worksheet="KPI1"))
+            st.session_state.dataset_df_kpi2 = pd.DataFrame(st.session_state.dataset_conn.read(worksheet="KPI2"))
+            st.session_state.dataset_df_kpi3 = pd.DataFrame(st.session_state.dataset_conn.read(worksheet="KPI3"))
             break
         except:
             time.sleep(2)
@@ -139,16 +141,13 @@ def main():
 
     # Data of the current comparison tbd
     curr_comparison = st.session_state.eval_comparisons.iloc[st.session_state.last_response_id]
-    base_claim_id = int(curr_comparison['base_claim_id'])
-    left_narrative_id = int(curr_comparison['left_narrative_id'])
-    right_narrative_id = int(curr_comparison['right_narrative_id'])
+    base_claim = str(curr_comparison['claim'])
+    left_cn = str(curr_comparison['cn_1'])
+    right_cn = str(curr_comparison['cn_2'])
     kpi_id = int(curr_comparison['kpi_id'])
-
-    # Data from the dataset regarding the current comparison
-    base_claim = st.session_state.dataset_df[st.session_state.dataset_df["base_claim_id"] == base_claim_id]["base_claim"].iloc[0]
     kpi = kpis[kpi_id]
-    left_cn = st.session_state.dataset_df[st.session_state.dataset_df["narrative_id"] == left_narrative_id]["narrative_text"].values[0]
-    right_cn = st.session_state.dataset_df[st.session_state.dataset_df["narrative_id"] == right_narrative_id]["narrative_text"].values[0]
+    left_score = float(curr_comparison['avg_score_cn_1'])
+    right_score = float(curr_comparison['avg_score_cn_2'])
 
     # Progress bar
     st.markdown("""
@@ -235,7 +234,7 @@ def main():
             if st.session_state.selection is not None:
                 elapsed_time = int(time.perf_counter() - st.session_state.start_time)
                 st.session_state.last_response_id += 1
-                new_row = [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), st.session_state.last_response_id, st.session_state.eval_id, base_claim_id, left_narrative_id, right_narrative_id, kpi_id, st.session_state.selection, elapsed_time]
+                new_row = [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), st.session_state.last_response_id, st.session_state.eval_id, base_claim, left_cn, right_cn, kpi_id, left_score, right_score, st.session_state.selection, elapsed_time]
                 st.session_state.evaluations_to_save.append(new_row)
                 st.session_state.start_time = None
                 st.session_state.selection = None
