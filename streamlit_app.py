@@ -53,6 +53,7 @@ def save_evaluations():
             
             # update range
             range_ = f"evaluations!A{start_of_range + 1}:I{start_of_range + len(st.session_state.evaluations_to_save)}"
+            print(range_)
             request = sheet.values().update(spreadsheetId=spreadsheet_id, range=range_,
                                     valueInputOption="USER_ENTERED", body=body)
             response = request.execute()
