@@ -47,9 +47,7 @@ def save_evaluations():
         try:
             service = st.session_state.sheets_service
             spreadsheet_id = st.session_state.spreadsheet_id
-            st.markdown(spreadsheet_id)
             body = {'values': st.session_state.evaluations_to_save}
-            st.markdown(st.session_state.evaluations_to_save)
             sheet = service.spreadsheets()
             start_of_range = st.session_state.evaluations_to_save[0][1]  # this is the response id of the first response to update
             
