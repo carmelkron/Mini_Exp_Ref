@@ -47,13 +47,14 @@ def save_evaluations():
         try:
             service = st.session_state.sheets_service
             spreadsheet_id = st.session_state.spreadsheet_id
+            st.markdown(spreadsheet_id)
             body = {'values': st.session_state.evaluations_to_save}
+            st.markdown(st.session_state.evaluations_to_save)
             sheet = service.spreadsheets()
             start_of_range = st.session_state.evaluations_to_save[0][1]  # this is the response id of the first response to update
             
             # update range
             range_ = f"evaluations!A{start_of_range + 1}:I{start_of_range + len(st.session_state.evaluations_to_save)}"
-            st.markdown(range_)
             request = sheet.values().update(spreadsheetId=spreadsheet_id, range=range_,
                                     valueInputOption="USER_ENTERED", body=body)
             response = request.execute()
