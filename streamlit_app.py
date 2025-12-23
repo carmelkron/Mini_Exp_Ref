@@ -135,8 +135,6 @@ def main():
     kpi = kpis[kpi_id]
     diff_level = curr_comparison['diff_level']
     left_better = curr_comparison['left_better']
-    if left_better is None:
-        left_better = 0
     # left_score = float(curr_comparison['avg_score_cn_1'])
     # right_score = float(curr_comparison['avg_score_cn_2'])
 
