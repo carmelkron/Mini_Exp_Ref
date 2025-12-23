@@ -108,9 +108,11 @@ def login():
 # Main app
 def main():
 
-    st.session_state.selection = None
-    st.session_state.start_time = None
-    
+    if "selection" not in st.session_state:
+        st.session_state.selection = None
+    if "start_time" not in st.session_state:
+        st.session_state.start_time = None
+
     if 'evaluations_to_save' not in st.session_state:
         st.session_state.evaluations_to_save = []
 
