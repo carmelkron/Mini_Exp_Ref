@@ -13,11 +13,11 @@ import gspread
 def initialize_sheets_client():
     """creating the connection to the evaluator's spreadsheet"""
     creds = Credentials.from_service_account_info(
-        st.secrets["connections"]["eval_" + str(st.session_state.eval_id)],
+        st.secrets["connections"]["eval_" + str(st.session_state.eval_id) + "_v2"],
         scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     )
     service = build('sheets', 'v4', credentials=creds)
-    spreadsheet_id = st.secrets["connections"]["eval_" + str(st.session_state.eval_id)]["spreadsheet"].split('/')[-2]
+    spreadsheet_id = st.secrets["connections"]["eval_" + str(st.session_state.eval_id) + "_v2"]["spreadsheet"].split('/')[-2]
     return service, spreadsheet_id
 
 # Set up the page
@@ -65,11 +65,8 @@ def save_evaluations():
 
 # Mapping login data (mail address) to the evaluator id's
 mapping = {
-    'bethany.meidinger@gmail.com' : 1,
-    'daikimai@fuji.waseda.jp' : 2,
-    'linahutchinson@ruri.waseda.jp': 3,
-    'lilymcree@gmail.com': 4,
-    'yijing_at_waseda@moegi.waseda.jp': 5
+    'first-email' : 1,
+    'second-email' : 2
 }
 
 # KPIs
@@ -99,7 +96,7 @@ def login():
             st.error("Please check again the mail address you entered.")
         else:
             st.session_state.eval_id = eval_id
-            st.session_state.eval_connection = st.connection(f"eval_{eval_id}", type=GSheetsConnection)
+            st.session_state.eval_connection = st.connection(f"eval_{eval_id}_v2", type=GSheetsConnection)
             
             while True:
                 try:
@@ -146,8 +143,10 @@ def main():
     right_cn = str(curr_comparison['cn_2'])
     kpi_id = int(curr_comparison['kpi_id'])
     kpi = kpis[kpi_id]
-    left_score = float(curr_comparison['avg_score_cn_1'])
-    right_score = float(curr_comparison['avg_score_cn_2'])
+    diff_level = curr_comparison['diff_level']
+    left_better = curr_comparison['left_better']
+    # left_score = float(curr_comparison['avg_score_cn_1'])
+    # right_score = float(curr_comparison['avg_score_cn_2'])
 
     # Progress bar
     st.markdown("""
@@ -234,7 +233,7 @@ def main():
             if st.session_state.selection is not None:
                 elapsed_time = int(time.perf_counter() - st.session_state.start_time)
                 st.session_state.last_response_id += 1
-                new_row = [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), st.session_state.last_response_id, st.session_state.eval_id, base_claim, left_cn, right_cn, kpi_id, left_score, right_score, st.session_state.selection, elapsed_time]
+                new_row = [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), st.session_state.last_response_id, st.session_state.eval_id, base_claim, left_cn, right_cn, diff_level, left_better, kpi_id, st.session_state.selection, elapsed_time]
                 st.session_state.evaluations_to_save.append(new_row)
                 st.session_state.start_time = None
                 st.session_state.selection = None
