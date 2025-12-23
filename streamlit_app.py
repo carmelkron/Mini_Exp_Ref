@@ -88,7 +88,6 @@ def login():
                 except:
                     time.sleep(2)
 
-            st.markdown("ok")
             st.session_state.num_evaluations = len(st.session_state.eval_comparisons)
             
             while True:
@@ -149,7 +148,7 @@ def main():
     }
     </style>""", unsafe_allow_html=True)
     progress = st.session_state.last_response_id / st.session_state.num_evaluations
-    st.html(f"<h6>Your progress so far: {round(progress * 100, 2)}%</h6>")
+    st.html(f"<h6>Your progress so far: {round(progress * 100, 2)}% ({st.session_state.last_response_id}/{st.session_state.num_evaluations})</h6>")
     st.progress(progress)
     
     # css code for counter-narrative boxes
