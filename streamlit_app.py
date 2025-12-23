@@ -23,9 +23,6 @@ def initialize_sheets_client():
 # Set up the page
 st.set_page_config(layout="wide")
 
-st.session_state.selection = None
-st.session_state.start_time = None
-
 # Function for saving evaluations in the evaluator's evaluations worksheet
 def save_evaluations():
     max_retries = 3
@@ -110,6 +107,10 @@ def login():
 
 # Main app
 def main():
+
+    st.session_state.selection = None
+    st.session_state.start_time = None
+    
     if 'evaluations_to_save' not in st.session_state:
         st.session_state.evaluations_to_save = []
 
