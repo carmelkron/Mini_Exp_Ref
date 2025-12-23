@@ -105,6 +105,7 @@ def login():
                 except:
                     time.sleep(2)
 
+            st.markdown("ok")
             st.session_state.num_evaluations = len(st.session_state.eval_comparisons)
             
             while True:
@@ -114,7 +115,7 @@ def login():
                 except:
                     time.sleep(2)
             
-            if last_response_id is np.nan:
+            if last_response_id is None or pd.isna(last_response_id):
                 st.session_state.last_response_id = 0
             else:
                 st.session_state.last_response_id = int(last_response_id)
