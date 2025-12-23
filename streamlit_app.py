@@ -213,6 +213,11 @@ def main():
     with col3:
         if st.button("B :point_right:", use_container_width=True):
             st.session_state.selection = 0
+
+    if st.session_state.selection == 1:
+        st.success("Selected: A")
+    elif st.session_state.selection == 0:
+        st.success("Selected: B")
     
     # Spacing between A,B buttons to Next question button
     st.markdown("<p style= height:20px;> </p>", unsafe_allow_html=True)
