@@ -23,22 +23,8 @@ def initialize_sheets_client():
 # Set up the page
 st.set_page_config(layout="wide")
 
-# Initialize session state with the dataset connection and the dataset itself
-if 'dataset_conn' not in st.session_state:
-    # st.session_state.dataset_conn = st.connection('comparisons_dataset', type=GSheetsConnection)
-    
-    # while True:
-    #     try:
-    #         st.session_state.dataset_df_kpi1 = pd.DataFrame(st.session_state.dataset_conn.read(worksheet="KPI1"))
-    #         st.session_state.dataset_df_kpi2 = pd.DataFrame(st.session_state.dataset_conn.read(worksheet="KPI2"))
-    #         st.session_state.dataset_df_kpi3 = pd.DataFrame(st.session_state.dataset_conn.read(worksheet="KPI3"))
-    #         break
-    #     except:
-    #         time.sleep(2)
-
-    st.session_state.last_response_id = None
-    st.session_state.selection = None
-    st.session_state.start_time = None
+st.session_state.selection = None
+st.session_state.start_time = None
 
 # Function for saving evaluations in the evaluator's evaluations worksheet
 def save_evaluations():
