@@ -49,7 +49,8 @@ def save_evaluations():
 # Mapping login data (mail address) to the evaluator id's
 mapping = {
     'yujiuetsuki@gmail.com' : 1,
-    'lilymcree@gmail.com' : 2
+    'lilymcree@gmail.com' : 2,
+    "test": 3
 }
 
 # KPIs
