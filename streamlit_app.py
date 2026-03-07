@@ -23,6 +23,16 @@ def initialize_sheets_client():
 # Set up the page
 st.set_page_config(layout="wide")
 
+@st.dialog("New Evaluation Criterion")
+def kpi_transition_dialog(kpi_name):
+    st.markdown(f"<h3 style='text-align:center;'>You are now evaluating:<br><b>{kpi_name}</b></h3>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+    _, col2, _ = st.columns(3)
+    with col2:
+        if st.button("Got it, continue →", use_container_width=True):
+            st.session_state.show_kpi_transition = False
+            st.rerun()
+
 # Function for saving evaluations in the evaluator's evaluations worksheet
 def save_evaluations():
     max_retries = 3
@@ -55,9 +65,9 @@ mapping = {
 
 # KPIs
 kpis = {
-    1: "Which response do you find <u>more convincing as a rebuttal</u> to the opinion displayed above, A or B? <br> Consider: clarity of argument, factual grounding, rhetorical effectiveness, strength of emotional appeal",
+    1: "Which response do you find <u>more convincing as a rebuttal</u> to the opinion displayed above, A or B? <br> Consider: strength of emotional appeal, clarity of argument, factual grounding, rhetorical effectiveness",
     2: "Which response <u>evokes stronger emotions</u>, A or B? <br> Consider: vividness of imagery, intensity of emotional language, personal or human-scale framing, use of emotive symbols and emojis",
-    3: "Which response do you think the average social media user is <u>more likely to find interesting to share (repost/retweet)</u>, A or B? <br> Consider: emotional resonance, clarity and brevity, use of emojis and visual elements, hashtag effectiveness"
+    3: "Which response do you think the average social media user is <u>more likely to share (repost/retweet)</u>, A or B? <br> Consider: emotional resonance, clarity and brevity, use of emojis and visual elements, hashtag effectiveness"
 }
 
 # Login Form
@@ -112,6 +122,12 @@ def main():
         st.session_state.selection = None
     if "start_time" not in st.session_state:
         st.session_state.start_time = None
+    if "prev_kpi_id" not in st.session_state:
+        st.session_state.prev_kpi_id = None
+    if "show_kpi_transition" not in st.session_state:
+        st.session_state.show_kpi_transition = False
+    if "transition_kpi_name" not in st.session_state:
+        st.session_state.transition_kpi_name = ""
 
     if 'evaluations_to_save' not in st.session_state:
         st.session_state.evaluations_to_save = []
@@ -133,6 +149,16 @@ def main():
     right_cn = str(curr_comparison['cn_2'])
     kpi_id = int(curr_comparison['kpi_id'])
     kpi = kpis[kpi_id]
+
+    kpi_name_map = {1: "Persuasiveness", 2: "Emotional Engagement", 3: "Shareability"}
+    if st.session_state.prev_kpi_id is not None and kpi_id != st.session_state.prev_kpi_id:
+        st.session_state.show_kpi_transition = True
+        st.session_state.transition_kpi_name = kpi_name_map[kpi_id]
+    st.session_state.prev_kpi_id = kpi_id
+
+    if st.session_state.show_kpi_transition:
+        kpi_transition_dialog(st.session_state.transition_kpi_name)
+
     diff_level = curr_comparison['diff_level']
     left_better = curr_comparison['left_better']
     # left_score = float(curr_comparison['avg_score_cn_1'])
