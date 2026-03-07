@@ -187,7 +187,7 @@ def main():
     st.html(f"<h4 style='text-align:center;'>Look at this claim</h4>")
     st.html(f'<p style="color:red; text-align:center; font-size: 180%;">{base_claim}</p>')
     
-    st.html(f'<h4 style="text-align:center; max-width: 65%; margin: 0 auto;">{kpi}</h4>')
+    st.html(f'<h3 style="text-align:center; max-width: 65%; margin: 0 auto;">{kpi}</h3>')
     
     st.html("""
     <div class="equal-height-container">
