@@ -55,9 +55,9 @@ mapping = {
 
 # KPIs
 kpis = {
-    1: "Which response do you find more convincing as a rebuttal to the opinion displayed above, A or B? \n\n Consider: strength of emotional appeal, clarity of argument, factual grounding, rhetorical effectiveness",
-    2: "Which response evokes stronger emotions, A or B? \n\n Consider: vividness of imagery, intensity of emotional language, personal or human-scale framing, use of emotive symbols and emojis",
-    3: "Which response do you think the average social media user is more likely to find interesting to share (repost/retweet), A or B? \n\n Consider: emotional resonance, clarity and brevity, use of emojis and visual elements, hashtag effectiveness"
+    1: "Which response do you find more convincing as a rebuttal to the opinion displayed above, A or B? <br> Consider: strength of emotional appeal, clarity of argument, factual grounding, rhetorical effectiveness",
+    2: "Which response evokes stronger emotions, A or B? <br> Consider: vividness of imagery, intensity of emotional language, personal or human-scale framing, use of emotive symbols and emojis",
+    3: "Which response do you think the average social media user is more likely to find interesting to share (repost/retweet), A or B? <br> Consider: emotional resonance, clarity and brevity, use of emojis and visual elements, hashtag effectiveness"
 }
 
 # Login Form
